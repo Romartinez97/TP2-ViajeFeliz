@@ -70,6 +70,6 @@ class Pasajero{
   }
   
   public function __toString(){
-    echo "Se registró al pasajero ".$this->getNombre()." ".$this->getApellido().", DNI N° ".$this->getNumeroDoc().", teléfono N° ".$this->getTelefono();  
+    echo "\nSe registró al pasajero ".$this->getNombre()." ".$this->getApellido().", DNI N° ".$this->getNumeroDoc().", teléfono N° ".$this->getTelefono();  
   }
 }
