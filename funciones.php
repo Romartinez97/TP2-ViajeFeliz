@@ -1,6 +1,8 @@
 <?php
 
 include_once("claseViaje.php");
+include_once("clasePasajero.php");
+include_once("claseResponsableV.php");
 include_once("testViaje.php");
 
 /**************************************/
@@ -8,7 +10,7 @@ include_once("testViaje.php");
 /**************************************/
 
 /**
- * Inicializa el arreglo con la información de los pasajeros.
+ * Inicializa el arreglo en el que se van a almacenar todas las instancias de la clase Pasajero.
  * return array
  */
 function iniciarListaPasajeros()
@@ -18,7 +20,7 @@ function iniciarListaPasajeros()
 }
 
 /**
- * Inicializa el arreglo con la información de los viajes.
+ * Inicializa el arreglo en el que se van a almacenar todas las instancias de la clase Viaje.
  * return array
  */
 function iniciarListaViajes()
@@ -45,7 +47,7 @@ function seleccionarOpcion()
     if ($opcion <= 0 || $opcion > 4) {
       echo "\nPor favor, ingrese un número valido.\n";
     }
-  } while ($opcion <= 0 || $opcion > 8);
+  } while ($opcion <= 0 || $opcion > 4);
 
   return $opcion;
 }
@@ -60,7 +62,7 @@ function esNumero()
   $numero = trim(fgets(STDIN));
 
   while (!is_numeric($numero)) {
-    echo "\nEl dato requerido debe estar compuesto solo por números enteros: ";
+    echo "\nEl dato requerido debe estar compuesto solo por números: ";
     $numero = trim(fgets(STDIN));
   }
 
@@ -98,7 +100,7 @@ function esRepetido($codigoViaje, $listadoViajes)
 }
 
 /**
- * Función para verificar si un viaje ya existe.
+ * Función para verificar si un pasajero ya está registrado.
  * @return int
  */
 function docRepetido($codigoViaje, $docPasajero, $listadoViajes)
@@ -111,24 +113,4 @@ function docRepetido($codigoViaje, $docPasajero, $listadoViajes)
     }
   }
   return -1;
-}
-
-/*
- * Función para crear un pasajero y agregarlo al arreglo.
- * @return array
- */
-function agregarPasajero($viaje)
-{
-  //string $nombrePasaj, $apellidoPasaj
-  //int $numeroDocPasaj
-  echo "\nIndique el nombre del pasajero: ";
-  $nombrePasaj = esString();
-  $viaje->setNombreP($nombrePasaj);
-  echo "\nIndique el apellido del pasajero: ";
-  $apellidoPasaj = esString();
-  $viaje->setApellidoP($apellidoPasaj);
-  echo "\nIndique el documento del pasajero (sin puntos): ";
-  $numeroDocPasaj = esNumero();
-  $viaje->setNumeroDocP($numeroDocPasaj);
-  return ["nombre" => $nombrePasaj, "apellido" => $apellidoPasaj, "numeroDoc" => $numeroDocPasaj];
 }
