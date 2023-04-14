@@ -1,7 +1,9 @@
 <?php
 
 include_once("claseViaje.php");
-include_once("funciones.php");
+include_once("clasePasajero.php");
+include_once("claseResponsableV.php");
+include_once("testViaje.php");
 
 /**************************************/
 /********* PROGRAMA PRINCIPAL *********/
@@ -36,12 +38,20 @@ do {
       }
       while ($respuesta == "s") {
         if (count($listadoPasajeros) == $maxPasajerosViaje) {
-          echo "\nEl viaje ya llegó al límite de pasajeros a bordo, no se permite el ingreso de otro más.";
+          echo "\nEl viaje ya llegó al límite de pasajeros a bordo, no se permite el ingreso de otro más";
           $respuesta = "n";
         } else {
-          $pasajero = agregarPasajero($viaje);
+          echo "\nIngrese el nombre del pasajero: ";
+          $nombreP = esString();
+          echo "\nIngrese el apellido del pasajero: ";
+          $apellidoP = esString();
+          echo "\nIngrese el número de documento del pasajero (sin puntos): ";
+          $numeroDocP = esNumero();
+          echo "\nIngrese el número de teléfono del pasajero (sin puntos ni guiones): ";
+          $telefonoP = esNumero();
+          $pasajero = new Pasajero ($nombreP, $apellidoP, $numeroDocP, $telefonoP);
           array_push($listadoPasajeros, $pasajero);
-          echo "\nSe agregó al pasajero " . $viaje->getNombreP() . " " . $viaje->getApellidoP() . ", DNI " . $viaje->getNumeroDocP() . " al registro de pasajeros del viaje.";
+          echo $pasajero;
           echo "\n¿Desea ingresar los datos de otro pasajero? (S/N): ";
           $respuesta = trim(fgets(STDIN));
           $respuesta = strtolower($respuesta);
@@ -54,6 +64,19 @@ do {
       }
       $viaje->setListaPasajeros($listadoPasajeros);
       array_push($listadoViajes, $viaje);
+      echo "\nDatos del responsable del viaje";
+      echo "\nNombre: ";
+      $nombreR = esString();
+      echo "\nApellido: ";
+      $apellidoR = esString();
+      echo "\nNúmero de empleado: ";
+      $numEmpleadoR = esNumero();
+      echo "\nNúmero de licencia: ";
+      $numLicenciaR = esNumero();
+      $responsableV = new ResponsableV ($nombreR, $apellidoR, $numEmpleadoR, $numLicenciaR);
+      $viaje -> setResponsableViaje($responsableV);
+      echo $responsableV;
+      echo $viaje;   
       break;
     case 2:
       //Modificar información del viaje.
