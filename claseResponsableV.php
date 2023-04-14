@@ -16,7 +16,7 @@ class ResponsableV{
   /*
   * Función de seteo de la variable $nombre
   */
-  public function setNombre($nombreP){
+  public function setNombre($nombreR){
     $this -> nombre = $nombreP;
   }
   
@@ -30,7 +30,7 @@ class ResponsableV{
   /*
   * Función de seteo de la variable $apellido
   */
-  public function setApellido($apellidoP){
+  public function setApellido($apellidoR){
     $this -> apellido = $apellidoP;
   }
   
@@ -70,6 +70,6 @@ class ResponsableV{
   }
   
   public function __toString(){
-    echo "El empleado responsable del viaje es ".$this->getNombre()." ".$this->getApellido().", número de empleado ".$this->getNumEmpleado().", número de licencia ".$this->getTelefono();  
+    echo "\nEl empleado responsable del viaje es ".$this->getNombre()." ".$this->getApellido().", número de empleado ".$this->getNumEmpleado().", número de licencia ".$this->getTelefono();  
   }
 }
