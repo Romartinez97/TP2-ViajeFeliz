@@ -27,7 +27,19 @@ do {
       $destinoViaje = esString();
       echo "\nIngrese la cantidad máxima de pasajeros permitidos: ";
       $maxPasajerosViaje = esNumero();
-      $viaje = new Viaje($codigoViaje, $destinoViaje, $maxPasajerosViaje, $listadoViajes);
+      echo "\nDatos del responsable del viaje";
+      echo "\nNombre: ";
+      $nombreR = esString();
+      echo "\nApellido: ";
+      $apellidoR = esString();
+      echo "\nNúmero de empleado: ";
+      $numEmpleadoR = esNumero();
+      echo "\nNúmero de licencia: ";
+      $numLicenciaR = esNumero();
+      $responsableV = new ResponsableV ($nombreR, $apellidoR, $numEmpleadoR, $numLicenciaR);
+      echo $responsableV;
+      $viaje = new Viaje($codigoViaje, $destinoViaje, $maxPasajerosViaje, $listadoPasajeros, $responsableV);
+      echo $viaje; 
       echo "\n¿Desea ingresar los datos de un pasajero? (S/N) ";
       $respuesta = trim(fgets(STDIN));
       $respuesta = strtolower($respuesta);
@@ -37,6 +49,8 @@ do {
         $respuesta = strtolower($respuesta);
       }
       while ($respuesta == "s") {
+        $pasajeroRepetido = false;
+        while (!$pasajeroRepetido){
         if (count($listadoPasajeros) == $maxPasajerosViaje) {
           echo "\nEl viaje ya llegó al límite de pasajeros a bordo, no se permite el ingreso de otro más";
           $respuesta = "n";
@@ -49,6 +63,18 @@ do {
           $numeroDocP = esNumero();
           echo "\nIngrese el número de teléfono del pasajero (sin puntos ni guiones): ";
           $telefonoP = esNumero();
+          
+          //Verificacion para que no se ingrese al mismo pasajero dos veces
+          while ($i=0; $i<=count($listadoPasajeros)){
+            if ($numeroDocP == $listadoPasajeros[$i]->getNumeroDoc()){
+                echo "\nYa se encuentra registrado un pasajero con el DNI ".$numeroDocP.", intente nuevamente.";
+              $pasajeroRepetido = true;
+              $i = -1;
+            }
+            $i++;
+          }
+          
+          if (!$pasajeroRepetido){
           $pasajero = new Pasajero ($nombreP, $apellidoP, $numeroDocP, $telefonoP);
           array_push($listadoPasajeros, $pasajero);
           echo $pasajero;
@@ -61,21 +87,10 @@ do {
             $respuesta = strtolower($respuesta);
           }
         }
+        }
       }
       $viaje->setListaPasajeros($listadoPasajeros);
       array_push($listadoViajes, $viaje);
-      echo "\nDatos del responsable del viaje";
-      echo "\nNombre: ";
-      $nombreR = esString();
-      echo "\nApellido: ";
-      $apellidoR = esString();
-      echo "\nNúmero de empleado: ";
-      $numEmpleadoR = esNumero();
-      echo "\nNúmero de licencia: ";
-      $numLicenciaR = esNumero();
-      $responsableV = new ResponsableV ($nombreR, $apellidoR, $numEmpleadoR, $numLicenciaR);
-      $viaje -> setResponsableViaje($responsableV);
-      echo $responsableV;
       echo $viaje;   
       break;
     case 2:
@@ -148,40 +163,57 @@ do {
           }
           echo "\n   1) Modificar nombre y apellido del pasajero.";
           echo "\n   2) Modificar documento del pasajero.";
-          echo "\n   3) Volver al menú anterior.";
+          echo "\n   3) Modificar teléfono del pasajero.";
+          echo "\n   4) Volver al menú anterior.";
           do {
-            echo "\nIngrese un número del 1 al 3 para elegir la opción: ";
+            echo "\nIngrese un número del 1 al 4 para elegir la opción: ";
             $opcion = trim(fgets(STDIN));
-            if ($opcion <= 0 || $opcion > 3) {
+            if ($opcion <= 0 || $opcion > 4) {
               echo "\nPor favor, ingrese un número valido.\n";
             }
-          } while ($opcion <= 0 || $opcion > 3);
+          } while ($opcion <= 0 || $opcion > 4);
 
-          switch ($opcion) { //En todos los cases tengo que hacer un recorrido parcial hasta ubicar el número de documento del pasajero en el array $listadoPasajeros
+          switch ($opcion) {
             case 1:
               echo "\nIngrese el nuevo nombre y apellido del pasajero.";
               echo "\nNombre: ";
               $nombreNuevo = esString();
               echo "\nApellido: ";
               $apellidoNuevo = esString();
-              $posicionActual = esRepetido($codigoViaje, $listadoViajes);
-              $posicionPersona = docRepetido($codigoViaje, $documentoPasajero, $listadoViajes);
-              $dataPasajeros = $listadoViajes[$posicionActual]->getListaPasajeros();
-              $dataPasajeros[$posicionPersona]["nombre"] = $nombreNuevo;
-              $dataPasajeros[$posicionPersona]["apellido"] = $apellidoNuevo;
-              $listadoViajes[$posicionActual]->setListaPasajeros($dataPasajeros);
-              echo "\nEl nuevo nombre y apellido del pasajero es " . $dataPasajeros[$posicionPersona]["nombre"] . " " . $dataPasajeros[$posicionPersona]["apellido"] . ".";
+              $posicionActual = esRepetido($codigoViaje, $listadoViajes); //Posicion viaje
+              $posicionPersona = docRepetido($codigoViaje, $documentoPasajero, $listadoViajes); //Posicion pasajero
+              //$dataPasajeros = $listadoViajes[$posicionActual]->getListaPasajeros();
+              //$dataPasajeros[$posicionPersona]["numeroDoc"] = $nuevoDocumento;
+              //Tengo que copiar los datos del pasajero para modificarlos con set y después hacer el push en el mismo lugar en el que estaba
+              $pasajeroAMod = $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual]; //Revisar si esto está bien 
+              $pasajeroAMod -> setNombreP($nombreNuevo);
+              $pasajeroAMod -> setApellidoP($apellidoNuevo);
+              $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual] = $pasajeroAMod;
+              echo "\nEl nuevo nombre y apellido del pasajero es " . $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual]->getNombreP(). " " . $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual]->getApellidoP().".";
               break;
             case 2:
-
               echo "\nIngrese el nuevo número de documento del pasajero (sin puntos): ";
               $nuevoDocumento = esNumero();
               $posicionActual = esRepetido($codigoViaje, $listadoViajes);
               $posicionPersona = docRepetido($codigoViaje, $documentoPasajero, $listadoViajes);
-              $dataPasajeros = $listadoViajes[$posicionActual]->getListaPasajeros();
-              $dataPasajeros[$posicionPersona]["numeroDoc"] = $nuevoDocumento;
-              $listadoViajes[$posicionActual]->setListaPasajeros($dataPasajeros);
-              echo "\nEl nuevo documento del pasajero es " . $dataPasajeros[$posicionPersona]["numeroDoc"] . ".";
+              //$dataPasajeros = $listadoViajes[$posicionActual]->getListaPasajeros();
+              //$dataPasajeros[$posicionPersona]["numeroDoc"] = $nuevoDocumento;
+              $pasajeroAMod = $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual];
+              $pasajeroAMod -> setNumeroDoc($nuevoDocumento);
+              $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual] = $pasajeroAMod;
+              echo "\nEl nuevo documento del pasajero es " . $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual]->getNumeroDoc() . ".";
+              break;
+              case 3:
+              echo "\nIngrese el nuevo número de teléfono del pasajero (sin puntos): ";
+              $nuevoTelefono = esNumero();
+              $posicionActual = esRepetido($codigoViaje, $listadoViajes);
+              $posicionPersona = docRepetido($codigoViaje, $documentoPasajero, $listadoViajes);
+              //$dataPasajeros = $listadoViajes[$posicionActual]->getListaPasajeros();
+              //$dataPasajeros[$posicionPersona]["numeroDoc"] = $nuevoDocumento;
+              $pasajeroAMod = $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual];
+              $pasajeroAMod -> setTelefono($nuevoTelefono);
+              $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual] = $pasajeroAMod;
+              echo "\nEl nuevo teléfono del pasajero es " . $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual]->getTelefono() . ".";
               break;
             default:
               break;
@@ -198,15 +230,21 @@ do {
         echo "\nEl código ingresado no corresponde a ningún viaje registrado. Ingrese un código válido: ";
         $codigoViaje = esNumero();
       }
+      echo $listadoViajes[$posicionActual];
+      /*
       echo "\nCódigo del viaje: " . $listadoViajes[$posicionActual]->getCodigo();
       echo "\nDestino del viaje: " . $listadoViajes[$posicionActual]->getDestino();
       echo "\nCantidad máxima de pasajeros en el viaje: " . $listadoViajes[$posicionActual]->getMaxPasajeros();
       echo "\nCantidad de pasajeros registrados en el viaje: " . count($listadoViajes[$posicionActual]->getListaPasajeros());
+      */
       echo "\n¿Desea ver el registro de todos los pasajeros registrados en el viaje? (S/N): ";
       $respuesta = trim(fgets(STDIN));
       $respuesta = strtolower($respuesta);
       if ($respuesta == "s") {
-        print_r($listadoViajes[$posicionActual]->getListaPasajeros());
+        $listadoViajes[$posicionActual]->getListaPasajeros();
+        foreach ($listaPasajeros as $pasajero){
+          echo $pasajero;
+        }
       }
       break;
   }
