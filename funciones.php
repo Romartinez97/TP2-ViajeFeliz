@@ -86,7 +86,7 @@ function esString()
 }
 
 /**
- * Función para verificar si un viaje ya existe.
+ * Función para verificar si un viaje ya existe. Si existe, retorna su posición en el array $listadoViajes.
  * @return $int
  */
 function esRepetido($codigoViaje, $listadoViajes)
@@ -100,7 +100,7 @@ function esRepetido($codigoViaje, $listadoViajes)
 }
 
 /**
- * Función para verificar si un pasajero ya está registrado.
+ * Función para verificar si un pasajero ya está registrado. Si existe, retorna su posición en el array $listadoPasajeros.
  * @return int
  */
 function docRepetido($codigoViaje, $docPasajero, $listadoViajes)
