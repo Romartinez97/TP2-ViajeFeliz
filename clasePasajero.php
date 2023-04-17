@@ -16,28 +16,28 @@ class Pasajero{
   /*
   * Función de seteo de la variable $nombre
   */
-  public function setNombre($nombreP){
+  public function setNombreP($nombreP){
     $this -> nombre = $nombreP;
   }
   
   /*
   * Función para retornar la variable $nombre
   */
-  public function getNombre(){
+  public function getNombreP(){
     return $this -> nombre;
   }
     
   /*
   * Función de seteo de la variable $apellido
   */
-  public function setApellido($apellidoP){
+  public function setApellidoP($apellidoP){
     $this -> apellido = $apellidoP;
   }
   
   /*
   * Función para retornar la variable $apellido
   */
-  public function getApellido(){
+  public function getApellidoP(){
     return $this -> apellido;
   }
   
@@ -70,6 +70,6 @@ class Pasajero{
   }
   
   public function __toString(){
-    echo "\nSe registró al pasajero ".$this->getNombre()." ".$this->getApellido().", DNI N° ".$this->getNumeroDoc().", teléfono N° ".$this->getTelefono();  
+    echo "\nPasajero ".$this->getNombreP()." ".$this->getApellidoP().", DNI N° ".$this->getNumeroDoc().", teléfono N° ".$this->getTelefono();  
   }
 }
