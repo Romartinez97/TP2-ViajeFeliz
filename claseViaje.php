@@ -6,9 +6,9 @@ class Viaje
   private $destino;
   private $maxPasajeros;
   private $listaPasajeros;
-  private $responsableViaje
+  private $responsableViaje;
 
-  public function __construct($codigoViaje, $destinoViaje, $maxPasajerosViaje, $listaPasajerosViaje)
+  public function __construct($codigoViaje, $destinoViaje, $maxPasajerosViaje, $listaPasajerosViaje, $responsableViaje)
   {
     $this->codigo = $codigoViaje;
     $this->destino = $destinoViaje;
@@ -96,6 +96,6 @@ class Viaje
   }
   
   public function __toString{
-    "\nSe registró el vuelo N° ".$this->getCodigo().", con destino a ".$this->getDestino()." y con ".count($this->getListaPasajeros())."/".$this->getMaxPasajeros." pasajeros registrados";
+    return "\nVuelo N° ".$this->getCodigo().", con destino a ".$this->getDestino()." y con ".count($this->getListaPasajeros())."/".$this->getMaxPasajeros." pasajeros registrados.\n".$this->getResponsableViaje();
   }
 }
