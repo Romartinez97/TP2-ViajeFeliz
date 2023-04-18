@@ -26,7 +26,7 @@ do {
       $destinoViaje = esString();
       echo "\nIngrese la cantidad máxima de pasajeros permitidos: ";
       $maxPasajerosViaje = esNumero();
-      echo "\nDatos del responsable del viaje";
+      echo "\nDatos del responsable del viaje:";
       echo "\nNombre: ";
       $nombreR = esString();
       echo "\nApellido: ";
@@ -52,32 +52,33 @@ do {
         if (count($listadoPasajeros) == $maxPasajerosViaje) {
           echo "\nEl viaje ya llegó al límite de pasajeros a bordo, no se permite el ingreso de otro más";
           $respuesta = "n";
+          break;
         } else {
           echo "\nIngrese el nombre del pasajero: ";
           $nombreP = esString();
           echo "\nIngrese el apellido del pasajero: ";
           $apellidoP = esString();
-          //echo "\nIngrese el número de documento del pasajero (sin puntos): ";
-          //$numeroDocP = esNumero();
           echo "\nIngrese el número de teléfono del pasajero (sin puntos ni guiones): ";
           $telefonoP = esNumero();
           $pasajeroRepetido = false;
-          while (!$pasajeroRepetido) {
+          //while (!$pasajeroRepetido) {
+          do {
             echo "\nIngrese el número de documento del pasajero (sin puntos): ";
             $numeroDocP = esNumero();
-            foreach ((array) $listadoPasajeros as $pasajero) {
+            //foreach ((array) $listadoPasajeros as $pasajero) {
+            for ($i = 0; $i < count($listadoPasajeros); $i++) {
               if ($numeroDocP == $listadoPasajeros[$i]->getNumeroDoc()) {
                 echo "\nYa se encuentra registrado un pasajero con el DNI " . $numeroDocP . ", intente nuevamente.";
-              } else {
+
                 $pasajeroRepetido = true;
               }
-              break;
+
             }
-          }
+          } while ($pasajeroRepetido);
         }
         $pasajero = new Pasajero($nombreP, $apellidoP, $numeroDocP, $telefonoP);
-        array_push($listadoPasajeros, $pasajero);
         echo $pasajero;
+        array_push($listadoPasajeros, $pasajero);    
         echo "\n¿Desea ingresar los datos de otro pasajero? (S/N): ";
         $respuesta = trim(fgets(STDIN));
         $respuesta = strtolower($respuesta);
@@ -239,9 +240,9 @@ do {
       $respuesta = trim(fgets(STDIN));
       $respuesta = strtolower($respuesta);
       if ($respuesta == "s") {
-        $listadoViajes[$posicionActual]->getListaPasajeros();
-        foreach ($listaPasajeros as $pasajero) {
-          echo $pasajero;
+        $listaPasajeros = $listadoViajes[$posicionActual]->getListaPasajeros();
+        for ($i = 0; $i < count($listaPasajeros); $i++) {
+          echo $listaPasajeros[$i];
         }
       }
       break;

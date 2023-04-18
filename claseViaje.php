@@ -99,6 +99,6 @@ class Viaje
   }
   
   public function __toString(){
-    return "\nVuelo N° ".$this->getCodigo().", con destino a ".$this->getDestino()." y con ".count($this->getListaPasajeros())."/".$this->getMaxPasajeros()." pasajeros registrados.\n".$this->getResponsableViaje();
+    return "\nVuelo N° ".$this->getCodigo().", con destino a ".$this->getDestino().", con ".count($this->getListaPasajeros())."/".$this->getMaxPasajeros()." pasajeros registrados.\n".$this->getResponsableViaje();
   }
 }

@@ -85,7 +85,6 @@ function esString()
 {
   //string $palabra
   $palabra = trim(fgets(STDIN));
-  while (!ctype_alpha($palabra)) {
     echo "\nEl dato requerido debe estar compuesto solo por letras: ";
     $palabra = trim(fgets(STDIN));
   }
