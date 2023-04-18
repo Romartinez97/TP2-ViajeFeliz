@@ -1,5 +1,8 @@
 <?php
 
+include_once("clasePasajero.php");
+include_once("claseResponsableV.php");
+
 class Viaje
 {
   private $codigo;
