@@ -3,30 +3,37 @@
 include_once("claseViaje.php");
 include_once("clasePasajero.php");
 include_once("claseResponsableV.php");
-include_once("testViaje.php");
 
 /**************************************/
 /***** DEFINICION DE FUNCIONES ********/
 /**************************************/
 
 /**
- * Inicializa el arreglo en el que se van a almacenar todas las instancias de la clase Pasajero.
- * return array
- */
-function iniciarListaPasajeros()
-{
-  $listadoPasajeros = [];
-  return $listadoPasajeros;
-}
-
-/**
- * Inicializa el arreglo en el que se van a almacenar todas las instancias de la clase Viaje.
+ * Inicializa una colección de viajes para probar el código.
  * return array
  */
 function iniciarListaViajes()
 {
-  $listadoViajes = [];
-  return $listadoViajes;
+  // Viaje 1
+  $responsable1 = new ResponsableV ("Maria", "Fernandez", "035789", "3546548");
+  $listadoPasajeros = [];
+  $pasajero1 = new Pasajero ("Juan", "Perez", "23456789", "2995123456");
+  array_push ($listadoPasajeros, $pasajero1);
+  $pasajero2 = new Pasajero ("Carlos", "Lopez", "12345678", "2995456789");
+  array_push ($listadoPasajeros, $pasajero2);
+  $viaje1 = new Viaje ("1001", "Buenos Aires", "30", $listadoPasajeros, $responsable1);
+  
+  // Viaje 2
+  $responsable2 = new ResponsableV ("Julio", "Gomez", "478659", "2678450");
+  $listadoPasajeros = [];
+  $pasajero3 = new Pasajero ("Pedro", "Gonzalez", "45678123", "2995316487");
+  array_push($listadoPasajeros, $pasajero3);
+  $pasajero4 = new Pasajero ("Marta", "Diaz", "34156789", "2995486179");
+  array_push($listadoPasajeros, $pasajero4);
+  $viaje2 = new Viaje ("1002", "Catamarca", "25", $listadoPasajeros, $responsable2);
+  
+  $listadoViajes = [$viaje1, $viaje2];
+  return $listadoViajes;  
 }
 
 /**
