@@ -3,13 +3,12 @@
 include_once("claseViaje.php");
 include_once("clasePasajero.php");
 include_once("claseResponsableV.php");
-include_once("testViaje.php");
+include_once("funciones.php");
 
 /**************************************/
 /********* PROGRAMA PRINCIPAL *********/
 /**************************************/
 
-$listadoPasajeros = iniciarListaPasajeros();
 $listadoViajes = iniciarListaViajes();
 
 do {
@@ -38,6 +37,7 @@ do {
       $numLicenciaR = esNumero();
       $responsableV = new ResponsableV($nombreR, $apellidoR, $numEmpleadoR, $numLicenciaR);
       echo $responsableV;
+      $listadoPasajeros = [];
       $viaje = new Viaje($codigoViaje, $destinoViaje, $maxPasajerosViaje, $listadoPasajeros, $responsableV);
       echo $viaje;
       echo "\n¿Desea ingresar los datos de un pasajero? (S/N) ";
