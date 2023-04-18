@@ -36,10 +36,10 @@ do {
       $numEmpleadoR = esNumero();
       echo "\nNúmero de licencia: ";
       $numLicenciaR = esNumero();
-      $responsableV = new ResponsableV ($nombreR, $apellidoR, $numEmpleadoR, $numLicenciaR);
+      $responsableV = new ResponsableV($nombreR, $apellidoR, $numEmpleadoR, $numLicenciaR);
       echo $responsableV;
       $viaje = new Viaje($codigoViaje, $destinoViaje, $maxPasajerosViaje, $listadoPasajeros, $responsableV);
-      echo $viaje; 
+      echo $viaje;
       echo "\n¿Desea ingresar los datos de un pasajero? (S/N) ";
       $respuesta = trim(fgets(STDIN));
       $respuesta = strtolower($respuesta);
@@ -49,8 +49,6 @@ do {
         $respuesta = strtolower($respuesta);
       }
       while ($respuesta == "s") {
-        $pasajeroRepetido = false;
-        while (!$pasajeroRepetido){
         if (count($listadoPasajeros) == $maxPasajerosViaje) {
           echo "\nEl viaje ya llegó al límite de pasajeros a bordo, no se permite el ingreso de otro más";
           $respuesta = "n";
@@ -59,39 +57,39 @@ do {
           $nombreP = esString();
           echo "\nIngrese el apellido del pasajero: ";
           $apellidoP = esString();
-          echo "\nIngrese el número de documento del pasajero (sin puntos): ";
-          $numeroDocP = esNumero();
+          //echo "\nIngrese el número de documento del pasajero (sin puntos): ";
+          //$numeroDocP = esNumero();
           echo "\nIngrese el número de teléfono del pasajero (sin puntos ni guiones): ";
           $telefonoP = esNumero();
-          
-          //Verificacion para que no se ingrese al mismo pasajero dos veces
-          while ($i=0; $i<=count($listadoPasajeros)){
-            if ($numeroDocP == $listadoPasajeros[$i]->getNumeroDoc()){
-                echo "\nYa se encuentra registrado un pasajero con el DNI ".$numeroDocP.", intente nuevamente.";
-              $pasajeroRepetido = true;
-              $i = -1;
+          $pasajeroRepetido = false;
+          while (!$pasajeroRepetido) {
+            echo "\nIngrese el número de documento del pasajero (sin puntos): ";
+            $numeroDocP = esNumero();
+            foreach ((array) $listadoPasajeros as $pasajero) {
+              if ($numeroDocP == $listadoPasajeros[$i]->getNumeroDoc()) {
+                echo "\nYa se encuentra registrado un pasajero con el DNI " . $numeroDocP . ", intente nuevamente.";
+              } else {
+                $pasajeroRepetido = true;
+              }
+              break;
             }
-            $i++;
-          }
-          
-          if (!$pasajeroRepetido){
-          $pasajero = new Pasajero ($nombreP, $apellidoP, $numeroDocP, $telefonoP);
-          array_push($listadoPasajeros, $pasajero);
-          echo $pasajero;
-          echo "\n¿Desea ingresar los datos de otro pasajero? (S/N): ";
-          $respuesta = trim(fgets(STDIN));
-          $respuesta = strtolower($respuesta);
-          while ($respuesta != "s" && $respuesta != "n") {
-            echo "\nIndique si desea (S) o no (N) agregar a un pasajero: ";
-            $respuesta = trim(fgets(STDIN));
-            $respuesta = strtolower($respuesta);
           }
         }
+        $pasajero = new Pasajero($nombreP, $apellidoP, $numeroDocP, $telefonoP);
+        array_push($listadoPasajeros, $pasajero);
+        echo $pasajero;
+        echo "\n¿Desea ingresar los datos de otro pasajero? (S/N): ";
+        $respuesta = trim(fgets(STDIN));
+        $respuesta = strtolower($respuesta);
+        while ($respuesta != "s" && $respuesta != "n") {
+          echo "\nIndique si desea (S) o no (N) agregar a un pasajero: ";
+          $respuesta = trim(fgets(STDIN));
+          $respuesta = strtolower($respuesta);
         }
       }
       $viaje->setListaPasajeros($listadoPasajeros);
       array_push($listadoViajes, $viaje);
-      echo $viaje;   
+      echo $viaje;
       break;
     case 2:
       //Modificar información del viaje.
@@ -186,10 +184,10 @@ do {
               //$dataPasajeros[$posicionPersona]["numeroDoc"] = $nuevoDocumento;
               //Tengo que copiar los datos del pasajero para modificarlos con set y después hacer el push en el mismo lugar en el que estaba
               $pasajeroAMod = $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual]; //Revisar si esto está bien 
-              $pasajeroAMod -> setNombreP($nombreNuevo);
-              $pasajeroAMod -> setApellidoP($apellidoNuevo);
+              $pasajeroAMod->setNombreP($nombreNuevo);
+              $pasajeroAMod->setApellidoP($apellidoNuevo);
               $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual] = $pasajeroAMod;
-              echo "\nEl nuevo nombre y apellido del pasajero es " . $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual]->getNombreP(). " " . $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual]->getApellidoP().".";
+              echo "\nEl nuevo nombre y apellido del pasajero es " . $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual]->getNombreP() . " " . $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual]->getApellidoP() . ".";
               break;
             case 2:
               echo "\nIngrese el nuevo número de documento del pasajero (sin puntos): ";
@@ -199,11 +197,11 @@ do {
               //$dataPasajeros = $listadoViajes[$posicionActual]->getListaPasajeros();
               //$dataPasajeros[$posicionPersona]["numeroDoc"] = $nuevoDocumento;
               $pasajeroAMod = $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual];
-              $pasajeroAMod -> setNumeroDoc($nuevoDocumento);
+              $pasajeroAMod->setNumeroDoc($nuevoDocumento);
               $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual] = $pasajeroAMod;
               echo "\nEl nuevo documento del pasajero es " . $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual]->getNumeroDoc() . ".";
               break;
-              case 3:
+            case 3:
               echo "\nIngrese el nuevo número de teléfono del pasajero (sin puntos): ";
               $nuevoTelefono = esNumero();
               $posicionActual = esRepetido($codigoViaje, $listadoViajes);
@@ -211,7 +209,7 @@ do {
               //$dataPasajeros = $listadoViajes[$posicionActual]->getListaPasajeros();
               //$dataPasajeros[$posicionPersona]["numeroDoc"] = $nuevoDocumento;
               $pasajeroAMod = $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual];
-              $pasajeroAMod -> setTelefono($nuevoTelefono);
+              $pasajeroAMod->setTelefono($nuevoTelefono);
               $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual] = $pasajeroAMod;
               echo "\nEl nuevo teléfono del pasajero es " . $listadoViajes[$posicionActual][$listadoPasajeros][$posicionActual]->getTelefono() . ".";
               break;
@@ -242,7 +240,7 @@ do {
       $respuesta = strtolower($respuesta);
       if ($respuesta == "s") {
         $listadoViajes[$posicionActual]->getListaPasajeros();
-        foreach ($listaPasajeros as $pasajero){
+        foreach ($listaPasajeros as $pasajero) {
           echo $pasajero;
         }
       }
